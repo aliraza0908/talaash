@@ -2,14 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>http://localhost:3000</loc>
-<lastmod>2026-11-11T09:26:46.284Z</lastmod>
+<lastmod>2026-11-11T09:40:18.412Z</lastmod>
 </url>
 <url>
 <loc>http://localhost:3000/auth</loc>
-<lastmod>2026-11-11T09:26:46.284Z</lastmod>
+<lastmod>2026-11-11T09:40:18.412Z</lastmod>
 </url>
 <url>
 <loc>http://localhost:3000/app</loc>
-<lastmod>2026-11-11T09:26:46.284Z</lastmod>
+<lastmod>2026-11-11T09:40:18.412Z</lastmod>
 </url>
 </urlset>

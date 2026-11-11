@@ -54,7 +54,10 @@ export default function RealFeed() {
     if (nextPage > 0) setLoadingMore(true); else setLoading(true);
     const from = nextPage * 10;
     const { data, error: queryError } = await client.from("posts").select("id,author_id,post_type,title,body,price,media,created_at,profiles(id,name,role,avatar_url,verified),likes(user_id),comments(id,body,created_at,profiles(id,name,role,avatar_url,verified))").order("created_at", { ascending: false }).range(from, from + 9);
-    if (queryError) setError("We could not load the feed. Check your Supabase policies and try again.");
+    if (queryError) {
+      console.error("Feed query failed", { message: queryError.message, code: queryError.code, details: queryError.details, hint: queryError.hint });
+      setError(`We could not load the feed (${queryError.code || "unknown error"}). Check the Supabase SQL setup and try again.`);
+    }
     const next = (data || []) as unknown as Post[];
     setPosts((current) => replace ? next : [...current, ...next]);
     setPage(nextPage); setHasMore(next.length === 10); setLoading(false); setLoadingMore(false);
