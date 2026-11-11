@@ -1,5 +1,13 @@
 {
-  "/page": "app/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/admin/team/page": "app/admin/team/page.js",
+  "/api/ai/route": "app/api/ai/route.js",
+  "/app/page": "app/app/page.js",
+  "/api/email/route": "app/api/email/route.js",
   "/auth/page": "app/auth/page.js",
-  "/app/page": "app/app/page.js"
+  "/dashboard/page": "app/dashboard/page.js",
+  "/feed/page": "app/feed/page.js",
+  "/page": "app/page.js",
+  "/profile/page": "app/profile/page.js",
+  "/sitemap.xml/route": "app/sitemap.xml/route.js"
 }

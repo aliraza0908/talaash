@@ -1,1 +1,5 @@
-export { default } from "@/app/app/page";
+import { redirect } from "next/navigation";
+
+export default function DashboardPage() {
+	redirect("/feed");
+}

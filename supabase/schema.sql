@@ -55,9 +55,33 @@ $$;
 drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created after insert on auth.users for each row execute procedure public.handle_new_user();
 
-create table public.posts (id uuid primary key default gen_random_uuid(), author_id uuid references public.profiles(id) on delete cascade, body text not null, media_url text, created_at timestamptz not null default now());
-create table public.post_likes (post_id uuid references public.posts(id) on delete cascade, user_id uuid references public.profiles(id) on delete cascade, primary key (post_id, user_id));
-create table public.comments (id uuid primary key default gen_random_uuid(), post_id uuid references public.posts(id) on delete cascade, author_id uuid references public.profiles(id) on delete cascade, body text not null, created_at timestamptz not null default now());
+create table public.posts (id uuid primary key default gen_random_uuid(), author_id uuid not null references public.profiles(id) on delete cascade, post_type text not null default 'post' check (post_type in ('post', 'project', 'gig', 'request')), title text, body text not null, price numeric(10,2), media jsonb not null default '[]'::jsonb, created_at timestamptz not null default now());
+create table public.likes (post_id uuid references public.posts(id) on delete cascade, user_id uuid references public.profiles(id) on delete cascade, primary key (post_id, user_id));
+create table public.comments (id uuid primary key default gen_random_uuid(), post_id uuid not null references public.posts(id) on delete cascade, author_id uuid not null references public.profiles(id) on delete cascade, body text not null, created_at timestamptz not null default now());
+
+-- Migrate the original starter tables when they already exist.
+alter table public.posts add column if not exists post_type text not null default 'post';
+alter table public.posts add column if not exists title text;
+alter table public.posts add column if not exists price numeric(10,2);
+alter table public.posts add column if not exists media jsonb not null default '[]'::jsonb;
+create table if not exists public.likes (post_id uuid references public.posts(id) on delete cascade, user_id uuid references public.profiles(id) on delete cascade, primary key (post_id, user_id));
+create table if not exists public.post_likes (post_id uuid references public.posts(id) on delete cascade, user_id uuid references public.profiles(id) on delete cascade, primary key (post_id, user_id));
+insert into public.likes select post_id, user_id from public.post_likes on conflict do nothing;
+
+alter table public.posts enable row level security;
+alter table public.likes enable row level security;
+alter table public.comments enable row level security;
+create policy "Anyone can read posts" on public.posts for select using (true);
+create policy "Signed in users can create posts" on public.posts for insert to authenticated with check (auth.uid() = author_id);
+create policy "Authors and admins can delete posts" on public.posts for delete to authenticated using (auth.uid() = author_id or exists (select 1 from public.profiles where id = auth.uid() and role = 'Admin'));
+create policy "Anyone can read likes" on public.likes for select using (true);
+create policy "Users manage their likes" on public.likes for all to authenticated using (auth.uid() = user_id) with check (auth.uid() = user_id);
+create policy "Anyone can read comments" on public.comments for select using (true);
+create policy "Signed in users can comment" on public.comments for insert to authenticated with check (auth.uid() = author_id);
+create policy "Authors can delete comments" on public.comments for delete to authenticated using (auth.uid() = author_id);
+
+-- Enable realtime for the shared feed. Run once if the tables are not already published.
+alter publication supabase_realtime add table public.posts, public.likes, public.comments;
 create table public.gigs (id uuid primary key default gen_random_uuid(), owner_id uuid references public.profiles(id) on delete cascade, title text not null, description text not null, price numeric(10,2) not null, media_urls text[] default '{}', created_at timestamptz not null default now());
 create table public.project_requests (id uuid primary key default gen_random_uuid(), client_id uuid references public.profiles(id) on delete cascade, title text not null, description text not null, budget numeric(10,2), status text not null default 'open', created_at timestamptz not null default now());
 create table public.messages (id uuid primary key default gen_random_uuid(), sender_id uuid references public.profiles(id) on delete cascade, recipient_id uuid references public.profiles(id) on delete cascade, body text not null, created_at timestamptz not null default now());
@@ -67,3 +91,7 @@ create table public.team_members (id uuid primary key default gen_random_uuid(),
 -- Storage bucket for profile photos, project media, and gig images.
 insert into storage.buckets (id, name, public) values ('talash-media', 'talash-media', true) on conflict (id) do nothing;
 insert into storage.buckets (id, name, public) values ('team-photos', 'team-photos', true) on conflict (id) do nothing;
+insert into storage.buckets (id, name, public) values ('post-media', 'post-media', true) on conflict (id) do nothing;
+create policy "Anyone can read post media" on storage.objects for select using (bucket_id = 'post-media');
+create policy "Signed in users can upload post media" on storage.objects for insert to authenticated with check (bucket_id = 'post-media' and (storage.foldername(name))[1] = auth.uid()::text);
+create policy "Owners can delete post media" on storage.objects for delete to authenticated using (bucket_id = 'post-media' and owner_id = auth.uid());

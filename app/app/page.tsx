@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Bell, BriefcaseBusiness, Check, ChevronDown, CircleDollarSign, FileText, Heart, LayoutGrid, MessageCircle, MoreHorizontal, Plus, Search, Send, Settings, ShieldCheck, Sparkles, Star, TrendingUp, Users, X } from "lucide-react";
+import { Bell, BriefcaseBusiness, Check, ChevronDown, CircleDollarSign, FileText, Heart, LayoutGrid, LoaderCircle, MessageCircle, MoreHorizontal, Plus, Search, Send, Settings, ShieldCheck, Sparkles, Star, TrendingUp, Users, X } from "lucide-react";
 import { gigs, profiles } from "@/lib/demo-data";
 import { AppView, Profile } from "@/types";
 import { createSupabaseBrowserClient } from "@/lib/supabase";
