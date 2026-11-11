@@ -40,11 +40,11 @@ export default function TeamSection() {
       <p className="mb-4 text-xs font-bold uppercase tracking-[.2em] text-moss">The people behind Talash</p>
       <h2 className="font-display text-4xl font-bold sm:text-5xl">Small team.<br /><span className="text-moss">Big belief.</span></h2>
     </div>
-    <div className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:flex-nowrap lg:justify-center lg:overflow-visible">
+    <div className="flex flex-col gap-10 pb-4 lg:flex-row lg:flex-nowrap lg:justify-center lg:gap-6">
       {sortMembers(members).map((member, index) => {
         const fallbackPhoto = getFallbackPhoto(member.name, index);
         const role = getMemberRole(member);
-        return <article key={member.id} className="group min-w-[220px] flex-none snap-start lg:min-w-0 lg:flex-1">
+        return <article key={member.id} className="group w-full flex-none lg:min-w-0 lg:flex-1">
         <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
           <img
             src={member.photo_url || fallbackPhoto}
