@@ -7,8 +7,8 @@ import { createSupabaseBrowserClient } from "@/lib/supabase";
 type TeamMember = { id: string; name: string; role: string; bio: string; photo_url: string | null; sort_order: number };
 
 const demoTeam: TeamMember[] = [
-  { id: "demo-1", name: "Areeba Khan", role: "CEO", bio: "Building a more open first step for Pakistan's next generation.", photo_url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=500&q=80", sort_order: 1 },
-  { id: "demo-2", name: "Hamza Ahmed", role: "Co-Founder", bio: "Making useful technology feel close, human, and possible.", photo_url: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=500&q=80", sort_order: 2 },
+  { id: "demo-1", name: "Ch.Aliraza", role: "CEO", bio: "Building a more open first step for Pakistan's next generation.", photo_url: "/team/ch-aliraza.png", sort_order: 1 },
+  { id: "demo-2", name: "MaheenNoor", role: "Co-Founder", bio: "Making useful technology feel close, human, and possible.", photo_url: "/team/maheen-noor.png", sort_order: 2 },
   { id: "demo-3", name: "Maham Siddiqui", role: "Community Lead", bio: "Helping good people find the room where their work can grow.", photo_url: null, sort_order: 3 }
 ];
 
