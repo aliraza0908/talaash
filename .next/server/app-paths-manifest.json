@@ -4,9 +4,9 @@
   "/api/ai/route": "app/api/ai/route.js",
   "/app/page": "app/app/page.js",
   "/api/email/route": "app/api/email/route.js",
+  "/dashboard/page": "app/dashboard/page.js",
   "/auth/page": "app/auth/page.js",
   "/feed/page": "app/feed/page.js",
-  "/dashboard/page": "app/dashboard/page.js",
   "/page": "app/page.js",
   "/profile/page": "app/profile/page.js",
   "/sitemap.xml/route": "app/sitemap.xml/route.js"

@@ -28,23 +28,44 @@ export default function RealFeed() {
   const [composerOpen, setComposerOpen] = useState(false);
   const [error, setError] = useState("");
   const sentinel = useRef<HTMLDivElement>(null);
+  const channelRef = useRef<RealtimeChannel | null>(null);
 
   useEffect(() => {
     if (!client) { setLoading(false); return; }
     const supabase = client;
-    let channel: RealtimeChannel | undefined;
+    let cancelled = false;
     async function load() {
       const { data: auth } = await supabase.auth.getUser();
+      if (cancelled) return;
       setSessionUser(auth.user?.id || null);
       if (auth.user) {
         const { data } = await supabase.from("profiles").select("id,name,role,avatar_url,verified").eq("id", auth.user.id).maybeSingle();
+        if (cancelled) return;
         if (data) setProfile(data as Author);
       }
       await loadPosts(0, true);
-      channel = supabase.channel("public-feed").on("postgres_changes", { event: "*", schema: "public", table: "posts" }, () => void loadPosts(0, true)).on("postgres_changes", { event: "*", schema: "public", table: "likes" }, () => void loadPosts(0, true)).on("postgres_changes", { event: "*", schema: "public", table: "comments" }, () => void loadPosts(0, true)).subscribe();
+      if (cancelled) return;
+      try {
+        const channel = supabase.channel(`public-feed-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+        channel
+          .on("postgres_changes", { event: "*", schema: "public", table: "posts" }, () => void loadPosts(0, true))
+          .on("postgres_changes", { event: "*", schema: "public", table: "likes" }, () => void loadPosts(0, true))
+          .on("postgres_changes", { event: "*", schema: "public", table: "comments" }, () => void loadPosts(0, true));
+        channelRef.current = channel;
+        channel.subscribe((status) => {
+          if (status === "CHANNEL_ERROR" || status === "TIMED_OUT") console.error("Feed realtime setup failed", { status });
+        });
+      } catch (realtimeError) {
+        console.error("Feed realtime setup failed", realtimeError);
+      }
     }
     void load();
-    return () => { if (channel) void supabase.removeChannel(channel); };
+    return () => {
+      cancelled = true;
+      const channel = channelRef.current;
+      channelRef.current = null;
+      if (channel) void supabase.removeChannel(channel);
+    };
   // The feed subscription intentionally refreshes the first page when a post changes.
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
