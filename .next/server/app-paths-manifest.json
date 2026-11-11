@@ -5,8 +5,8 @@
   "/app/page": "app/app/page.js",
   "/api/email/route": "app/api/email/route.js",
   "/auth/page": "app/auth/page.js",
-  "/dashboard/page": "app/dashboard/page.js",
   "/feed/page": "app/feed/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
   "/page": "app/page.js",
   "/profile/page": "app/profile/page.js",
   "/sitemap.xml/route": "app/sitemap.xml/route.js"
