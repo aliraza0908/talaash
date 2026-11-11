@@ -8,6 +8,8 @@ create table if not exists public.profiles (
   avatar_url text,
   verified boolean not null default false
 );
+alter table public.profiles add column if not exists avatar_url text;
+alter table public.profiles add column if not exists verified boolean not null default false;
 
 create table if not exists public.posts (
   id uuid primary key default gen_random_uuid(),

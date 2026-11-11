@@ -26,6 +26,8 @@ create table public.profiles (
 
 -- Run these statements separately for an existing project.
 alter table public.profiles add column if not exists email text;
+alter table public.profiles add column if not exists avatar_url text;
+alter table public.profiles add column if not exists verified boolean not null default false;
 alter table public.profiles add column if not exists degree text;
 alter table public.profiles add column if not exists semester text;
 alter table public.profiles add column if not exists city text;
@@ -63,6 +65,7 @@ create table public.comments (id uuid primary key default gen_random_uuid(), pos
 
 -- Migrate the original starter tables when they already exist.
 alter table public.posts add column if not exists post_type text not null default 'post';
+alter table public.posts add column if not exists body text;
 alter table public.posts add column if not exists title text;
 alter table public.posts add column if not exists price numeric(10,2);
 alter table public.posts add column if not exists media jsonb not null default '[]'::jsonb;

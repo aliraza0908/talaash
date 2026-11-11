@@ -11,13 +11,13 @@ import AccountMenu from "@/components/AccountMenu";
 
 type PostType = "post" | "project" | "gig" | "request";
 type MediaItem = { url: string; type: "image" | "video"; name: string };
-type Author = { id: string; name: string; role: string; avatar_url: string | null; verified: boolean };
+type Author = { id: string; name: string; role: string; avatar_url: string | null; verified?: boolean };
 type Post = { id: string; author_id: string; post_type: PostType; title: string | null; body: string; price: number | null; media: MediaItem[]; created_at: string; profiles: Author | Author[] | null; likes: { user_id: string }[]; comments: CommentItem[] };
 type CommentItem = { id: string; body: string; created_at: string; profiles: Author | Author[] | null };
 const filters: { label: string; value: "all" | PostType }[] = [{ label: "All", value: "all" }, { label: "Projects", value: "project" }, { label: "Gigs", value: "gig" }, { label: "Requests", value: "request" }];
 const typeLabels: Record<PostType, string> = { post: "Post", project: "Project", gig: "Gig", request: "Client request" };
 const typeStyles: Record<PostType, string> = { post: "border-slate-200", project: "border-primary/30 bg-primarySoft/30", gig: "border-amber-300 bg-amber-50/30", request: "border-blue-300 bg-blue-50/30" };
-const postSelect = "id,author_id,post_type,title,body,price,media,created_at,profiles!posts_author_id_fkey(id,name,role,avatar_url,verified),likes(user_id),comments(id,body,created_at,profiles!comments_author_id_fkey(id,name,role,avatar_url,verified))";
+const postSelect = "id,author_id,post_type,title,body,price,media,created_at,profiles!posts_author_id_fkey(id,name,role,avatar_url),likes(user_id),comments(id,body,created_at,profiles!comments_author_id_fkey(id,name,role,avatar_url))";
 
 export default function RealFeed() {
   const client = createSupabaseBrowserClient();
@@ -43,7 +43,7 @@ export default function RealFeed() {
       if (cancelled) return;
       setSessionUser(auth.user?.id || null);
       if (auth.user) {
-        const { data } = await supabase.from("profiles").select("id,name,role,avatar_url,verified").eq("id", auth.user.id).maybeSingle();
+        const { data } = await supabase.from("profiles").select("id,name,role,avatar_url").eq("id", auth.user.id).maybeSingle();
         if (cancelled) return;
         if (data) setProfile(data as Author);
       }
