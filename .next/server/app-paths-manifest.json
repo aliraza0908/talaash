@@ -7,10 +7,10 @@
   "/app/page": "app/app/page.js",
   "/auth/page": "app/auth/page.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/page": "app/page.js",
   "/feed/page": "app/feed/page.js",
-  "/sitemap.xml/route": "app/sitemap.xml/route.js",
   "/messages/page": "app/messages/page.js",
+  "/page": "app/page.js",
+  "/network/page": "app/network/page.js",
   "/profile/page": "app/profile/page.js",
-  "/network/page": "app/network/page.js"
+  "/sitemap.xml/route": "app/sitemap.xml/route.js"
 }
