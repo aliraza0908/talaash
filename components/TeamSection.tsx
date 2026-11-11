@@ -9,7 +9,8 @@ type TeamMember = { id: string; name: string; role: string; bio: string; photo_u
 const demoTeam: TeamMember[] = [
   { id: "demo-1", name: "Ch.Aliraza", role: "CEO", bio: "Building a more open first step for Pakistan's next generation.", photo_url: "/team/ch-aliraza.png", sort_order: 1 },
   { id: "demo-2", name: "MaheenNoor", role: "Co-Founder", bio: "Making useful technology feel close, human, and possible.", photo_url: "/team/maheen-noor.png", sort_order: 2 },
-  { id: "demo-3", name: "Maham Siddiqui", role: "Community Lead", bio: "Helping good people find the room where their work can grow.", photo_url: null, sort_order: 3 }
+  { id: "demo-3", name: "Amta Hafeez", role: "Co-Founder", bio: "Helping shape thoughtful technology and meaningful opportunities.", photo_url: "/team/amta-hafeez.png", sort_order: 3 },
+  { id: "demo-4", name: "Maham Siddiqui", role: "Community Lead", bio: "Helping good people find the room where their work can grow.", photo_url: null, sort_order: 4 }
 ];
 
 export default function TeamSection() {
