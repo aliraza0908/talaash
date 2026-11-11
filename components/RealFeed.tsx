@@ -81,7 +81,9 @@ export default function RealFeed() {
     const { data, error: queryError } = await client.from("posts").select(postSelect).order("created_at", { ascending: false }).range(from, from + 9);
     if (queryError) {
       console.error("Feed query failed", { message: queryError.message, code: queryError.code, details: queryError.details, hint: queryError.hint });
-      setError(`We could not load the feed (${queryError.code || "unknown error"}). Check the Supabase SQL setup and try again.`);
+      setError(queryError.code === "42703"
+        ? "The feed database is missing a required column. Run supabase/feed-fix.sql in the Supabase SQL Editor, then reload this page."
+        : `We could not load the feed (${queryError.code || "unknown error"}). Check the Supabase SQL setup and try again.`);
     }
     const next = (data || []) as unknown as Post[];
     setPosts((current) => replace ? next : [...current, ...next]);
