@@ -41,7 +41,7 @@ export default function TeamSection() {
       <h2 className="font-display text-4xl font-bold sm:text-5xl">Small team.<br /><span className="text-moss">Big belief.</span></h2>
     </div>
     <div className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:flex-nowrap lg:justify-center lg:overflow-visible">
-      {members.map((member, index) => {
+      {sortMembers(members).map((member, index) => {
         const fallbackPhoto = getFallbackPhoto(member.name, index);
         const role = getMemberRole(member);
         return <article key={member.id} className="group min-w-[220px] flex-none snap-start lg:min-w-0 lg:flex-1">
@@ -53,7 +53,7 @@ export default function TeamSection() {
               if (event.currentTarget.src.endsWith(fallbackPhoto)) return;
               event.currentTarget.src = fallbackPhoto;
             }}
-            className="h-full w-full object-cover grayscale transition duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_16px_30px_rgba(61,47,69,.14)]"
+            className="h-full w-full object-cover grayscale transition duration-300 group-hover:-translate-y-1 group-hover:grayscale-0 group-hover:shadow-[0_16px_30px_rgba(61,47,69,.14)]"
           />
           <div className="absolute bottom-4 left-4 rounded-full bg-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-ink shadow-sm">{role}</div>
         </div>
@@ -81,6 +81,16 @@ function getMemberRole(member: TeamMember) {
   if (name.includes("maheennoor") || name.includes("amta") || name.includes("amta hafeez")) return "Co-Founder";
   if (name.includes("aliraza") || name.includes("ch aliraza")) return "CEO";
   return member.role;
+}
+
+function sortMembers(members: TeamMember[]) {
+  return [...members].sort((first, second) => getRoleOrder(getMemberRole(first)) - getRoleOrder(getMemberRole(second)));
+}
+
+function getRoleOrder(role: string) {
+  if (role === "CEO") return 0;
+  if (role === "Co-Founder") return 1;
+  return 2;
 }
 
 function isLeadership(role: string) { return role === "CEO" || role === "Founder" || role === "Co-Founder"; }
