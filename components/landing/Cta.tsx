@@ -1,0 +1,4 @@
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+
+export default function Cta() { return <section className="px-5 pb-20 sm:px-8 lg:px-10 lg:pb-28"><div className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] bg-plum px-6 py-14 text-center text-white sm:px-12 lg:py-20"><p className="text-xs font-bold uppercase tracking-[.2em] text-sageLight">Your room is waiting</p><h2 className="mx-auto mt-5 max-w-2xl font-display text-4xl font-bold leading-[1.02] tracking-[-.04em] sm:text-6xl">Start with what you know. <em className="font-serif font-normal text-lavender">Grow from there.</em></h2><Link href="/auth" className="mt-8 inline-flex items-center rounded-full bg-sageLight px-5 py-3.5 text-sm font-bold text-plum transition hover:-translate-y-0.5 hover:bg-white active:scale-95">Join Talash free <ArrowUpRight className="ml-1 h-4 w-4" /></Link></div></section>; }

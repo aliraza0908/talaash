@@ -1,10 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-:root { --font-geist: "DM Sans"; --font-space: "Space Grotesk"; }
+:root { --font-geist: "DM Sans"; --font-space: "Space Grotesk"; --font-editorial: "Iowan Old Style"; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; background: #f7f8f3; color: #18231f; font-family: var(--font-geist), sans-serif; }
+body { margin: 0; background: #f6f3ee; color: #3d2f45; font-family: var(--font-geist), sans-serif; }
 button, input, textarea { font: inherit; }
 .noise { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.06'/%3E%3C/svg%3E"); }
-::selection { background: #f2b84b; color: #18231f; }
+::selection { background: #c9bde0; color: #3d2f45; }
+.landing-grid { background-image: linear-gradient(rgba(61,47,69,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(61,47,69,.045) 1px, transparent 1px); background-size: 44px 44px; }
+.landing-dots { background-image: radial-gradient(rgba(61,47,69,.12) 1px, transparent 1px); background-size: 18px 18px; }

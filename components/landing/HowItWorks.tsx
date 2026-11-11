@@ -1,0 +1,8 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { ArrowUpRight, Compass, HandCoins, UserRound } from "lucide-react";
+
+const steps = [{ number: "01", icon: UserRound, title: "Build your profile", text: "Show the skills, projects and point of view that make your work yours." }, { number: "02", icon: Compass, title: "Get discovered", text: "Find people looking for exactly your curiosity, craft and perspective." }, { number: "03", icon: HandCoins, title: "Earn your next win", text: "Turn your growing confidence into meaningful gigs and paid work." }];
+
+export default function HowItWorks() { return <section id="how" className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:px-10 lg:py-28"><div className="max-w-xl"><p className="text-xs font-bold uppercase tracking-[.2em] text-sage">Your next chapter</p><h2 className="mt-4 font-display text-4xl font-bold leading-[1.05] tracking-[-.04em] text-plum sm:text-5xl">A little more <em className="font-serif font-normal text-lavenderDeep">possible</em>, every day.</h2></div><div className="mt-14 grid gap-8 md:grid-cols-3">{steps.map(({ number, icon: Icon, title, text }, index) => <motion.article key={number} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ delay: index * .08 }} className="border-t border-plum/20 pt-5"><div className="flex items-center justify-between"><span className="font-mono text-xs font-bold text-lavenderDeep">{number}</span><Icon className="h-5 w-5 text-sage" /></div><h3 className="mt-14 font-display text-2xl font-bold text-plum">{title}</h3><p className="mt-3 max-w-xs text-sm leading-6 text-plum/60">{text}</p><ArrowUpRight className="mt-8 h-5 w-5 text-plum/35" /></motion.article>)}</div></section>; }

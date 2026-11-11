@@ -1,28 +1,11 @@
-"use client";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { ArrowUpRight, BriefcaseBusiness, Check, ChevronRight, CirclePlay, Sparkles, Users } from "lucide-react";
+import Header from "@/components/landing/Header";
+import Hero from "@/components/landing/Hero";
+import HowItWorks from "@/components/landing/HowItWorks";
+import Features from "@/components/landing/Features";
+import Cta from "@/components/landing/Cta";
+import Footer from "@/components/landing/Footer";
 import TeamSection from "@/components/TeamSection";
 
-const fade = { hidden: { opacity: 0, y: 18 }, show: { opacity: 1, y: 0, transition: { duration: .6 } } };
-
 export default function LandingPage() {
-  return <main className="overflow-hidden bg-paper">
-    <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6 lg:px-10">
-      <Link href="/" className="font-display text-2xl font-bold tracking-tight">talash<span className="text-sun">.</span></Link>
-      <div className="hidden items-center gap-8 text-sm font-medium text-ink/60 md:flex"><a href="#why">Why Talash</a><a href="#how">How it works</a><a href="#community">Community</a></div>
-      <div className="flex items-center gap-3"><Link href="/auth" className="hidden px-4 py-2 text-sm font-semibold md:block">Log in</Link><Link href="/auth" className="rounded-full bg-ink px-5 py-3 text-sm font-semibold text-white transition hover:bg-moss">Join Talash <ArrowUpRight className="ml-1 inline h-4 w-4" /></Link></div>
-    </nav>
-    <section className="noise relative mx-4 overflow-hidden rounded-[2rem] bg-moss px-7 pb-20 pt-16 text-white sm:px-12 lg:mx-8 lg:px-20 lg:pb-28 lg:pt-24">
-      <div className="absolute -right-32 -top-32 h-96 w-96 rounded-full border-[60px] border-sun/20" />
-      <div className="relative max-w-3xl"><motion.div initial="hidden" animate="show" variants={fade} className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 px-3 py-1.5 text-xs font-medium text-mint"><Sparkles className="h-3.5 w-3.5 text-sun" /> Built for the next generation of Pakistan</motion.div><motion.h1 initial="hidden" animate="show" variants={{ ...fade, show: { ...fade.show, transition: { duration: .6, delay: .1 } } }} className="font-display text-5xl font-bold leading-[.98] tracking-tight sm:text-7xl lg:text-8xl">Your work deserves a <span className="text-sun">bigger room.</span></motion.h1><motion.p initial="hidden" animate="show" variants={{ ...fade, show: { ...fade.show, transition: { duration: .6, delay: .2 } } }} className="mt-8 max-w-xl text-lg leading-8 text-white/70">Talash connects Pakistani students and fresh graduates with people who believe in what they can do next.</motion.p><motion.div initial="hidden" animate="show" variants={{ ...fade, show: { ...fade.show, transition: { duration: .6, delay: .3 } } }} className="mt-10 flex flex-wrap items-center gap-4"><Link href="/auth" className="rounded-full bg-sun px-6 py-3.5 font-semibold text-ink transition hover:bg-white">Start building your profile <ArrowUpRight className="ml-1 inline h-4 w-4" /></Link><button className="flex items-center gap-2 px-4 py-3 font-semibold text-white/80"><CirclePlay className="h-5 w-5" /> See how it works</button></motion.div></div>
-      <div className="relative mt-20 flex items-end justify-end lg:absolute lg:bottom-14 lg:right-20 lg:mt-0"><div className="w-64 rotate-3 rounded-2xl bg-white p-3 text-ink shadow-2xl sm:w-72"><div className="h-36 rounded-xl bg-[url('https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80')] bg-cover bg-center" /><div className="p-3"><div className="flex items-center justify-between"><span className="text-xs font-bold">Areeba Khan</span><span className="rounded bg-mint px-2 py-1 text-[10px] font-bold text-moss">TALASH BADGE</span></div><p className="mt-2 text-xs text-ink/50">Product designer · Lahore</p></div></div></div>
-    </section>
-    <section id="why" className="mx-auto max-w-7xl px-6 py-24 lg:px-10"><div className="grid gap-12 lg:grid-cols-[.8fr_1.2fr]"><div><p className="mb-4 text-xs font-bold uppercase tracking-[.2em] text-moss">Not another job board</p><h2 className="font-display text-4xl font-bold leading-tight sm:text-5xl">Put your potential on the map.</h2></div><div className="grid gap-4 sm:grid-cols-2"><Feature icon={<Users />} title="Be seen for your work" text="Build a living profile that shows the projects, skills, and story behind your resume." /><Feature icon={<BriefcaseBusiness />} title="Get paid to learn" text="Turn your craft into gigs. Find clients who value the person behind the service." /></div></div></section>
-    <section id="how" className="border-y border-ink/10 bg-white px-6 py-24 lg:px-10"><div className="mx-auto max-w-7xl"><div className="flex flex-wrap items-end justify-between gap-6"><div><p className="mb-4 text-xs font-bold uppercase tracking-[.2em] text-moss">Your next chapter</p><h2 className="font-display text-4xl font-bold sm:text-5xl">A network that<br /><span className="text-moss">moves with you.</span></h2></div><Link href="/app" className="font-semibold text-moss">Explore the demo <ChevronRight className="inline h-4 w-4" /></Link></div><div className="mt-16 grid gap-5 md:grid-cols-3"><Step number="01" title="Make your mark" text="Your profile is more than a CV. Show the real work, the messy drafts, and the wins." /><Step number="02" title="Find your people" text="Meet collaborators, clients, and mentors who are looking for exactly your point of view." /><Step number="03" title="Keep growing" text="Build momentum with verified activity, meaningful reviews, and a community in your corner." /></div></div></section>
-    <TeamSection />
-    <footer id="community" className="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-10 text-sm text-ink/50 sm:flex-row sm:items-center sm:justify-between lg:px-10"><span className="font-display text-xl font-bold text-ink">talash<span className="text-sun">.</span></span><span>Made for people building what is next in Pakistan.</span><span>© 2026 Talash</span></footer>
-  </main>;
+  return <main className="overflow-hidden bg-cream"><Header /><Hero /><HowItWorks /><Features /><section id="team"><TeamSection /></section><Cta /><Footer /></main>;
 }
-function Feature({ icon, title, text }: { icon: React.ReactNode; title: string; text: string }) { return <div className="rounded-2xl bg-mint/60 p-6"><div className="mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-moss text-white">{icon && <span className="h-5 w-5">{icon}</span>}</div><h3 className="font-display text-xl font-bold">{title}</h3><p className="mt-3 text-sm leading-6 text-ink/60">{text}</p></div>; }
-function Step({ number, title, text }: { number: string; title: string; text: string }) { return <div className="border-t-2 border-ink pt-5"><span className="font-mono text-xs font-bold text-sun">{number}</span><h3 className="mt-12 font-display text-2xl font-bold">{title}</h3><p className="mt-3 max-w-xs text-sm leading-6 text-ink/60">{text}</p><Check className="mt-8 h-5 w-5 text-moss" /></div>; }
