@@ -12,8 +12,14 @@ const localTeamPhotos = [
   "/team/amta-hafeez.png",
 ];
 
+const fallbackMembers: TeamMember[] = [
+  { id: "maheen-noor", name: "Maheen Noor", role: "Co-Founder", bio: "", photo_url: localTeamPhotos[0], sort_order: 0 },
+  { id: "ch-aliraza", name: "Ali Raza", role: "CEO", bio: "", photo_url: localTeamPhotos[1], sort_order: 1 },
+  { id: "amta-hafeez", name: "Amta Hafeez", role: "Co-Founder", bio: "", photo_url: localTeamPhotos[2], sort_order: 2 },
+];
+
 export default function TeamSection() {
-  const [members, setMembers] = useState<TeamMember[]>([]);
+  const [members, setMembers] = useState<TeamMember[]>(fallbackMembers);
 
   useEffect(() => {
     const client = createSupabaseBrowserClient();
@@ -23,7 +29,7 @@ export default function TeamSection() {
         console.error("Team members query failed", { message: error.message, details: error.details });
         return;
       }
-      setMembers((data || []) as TeamMember[]);
+      if (data?.length) setMembers((data || []) as TeamMember[]);
     });
   }, []);
 
@@ -37,6 +43,7 @@ export default function TeamSection() {
     <div className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:flex-nowrap lg:justify-center lg:overflow-visible">
       {members.map((member, index) => {
         const fallbackPhoto = getFallbackPhoto(member.name, index);
+        const role = getMemberRole(member);
         return <article key={member.id} className="group min-w-[220px] flex-none snap-start lg:min-w-0 lg:flex-1">
         <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
           <img
@@ -48,14 +55,14 @@ export default function TeamSection() {
             }}
             className="h-full w-full object-cover grayscale transition duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_16px_30px_rgba(61,47,69,.14)]"
           />
-          <div className="absolute bottom-4 left-4 rounded-full bg-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-ink shadow-sm">{member.role}</div>
+          <div className="absolute bottom-4 left-4 rounded-full bg-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-ink shadow-sm">{role}</div>
         </div>
         <div className="mt-4 flex items-start gap-2">
           <div className="flex-1">
             <h3 className="font-display text-xl font-bold">{member.name}</h3>
             <p className="mt-2 line-clamp-2 text-sm leading-6 text-ink/55">{member.bio}</p>
           </div>
-          {isLeadership(member.role) && <ShieldCheck className="mt-1 h-5 w-5 shrink-0 text-moss" />}
+          {isLeadership(role) && <ShieldCheck className="mt-1 h-5 w-5 shrink-0 text-moss" />}
         </div>
       </article>;
       })}
@@ -69,4 +76,11 @@ function getFallbackPhoto(name: string, index: number) {
   return matchingPhoto || localTeamPhotos[index % localTeamPhotos.length];
 }
 
-function isLeadership(role: string) { return role === "CEO" || role === "Co-Founder"; }
+function getMemberRole(member: TeamMember) {
+  const name = member.name.toLowerCase().replace(/[^a-z]+/g, "");
+  if (name.includes("maheennoor") || name.includes("amta") || name.includes("amta hafeez")) return "Co-Founder";
+  if (name.includes("aliraza") || name.includes("ch aliraza")) return "CEO";
+  return member.role;
+}
+
+function isLeadership(role: string) { return role === "CEO" || role === "Founder" || role === "Co-Founder"; }
