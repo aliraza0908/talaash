@@ -17,6 +17,7 @@ create table public.profiles (
   skills text[] default '{}',
   avatar_url text,
   verified boolean not null default false,
+  banned boolean not null default false,
   activity_score integer not null default 0,
   completed_projects integer not null default 0,
   last_active_at timestamptz,
@@ -31,6 +32,7 @@ alter table public.profiles add column if not exists city text;
 alter table public.profiles add column if not exists work_wanted text;
 alter table public.profiles add column if not exists company_type text;
 alter table public.profiles add column if not exists description text;
+alter table public.profiles add column if not exists banned boolean not null default false;
 
 -- Create a profile even when Supabase requires email confirmation before a session exists.
 create or replace function public.handle_new_user()

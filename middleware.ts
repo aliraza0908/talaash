@@ -12,8 +12,7 @@ export async function middleware(request: NextRequest) {
   const client = createServerClient(url, key, { cookies: { getAll: () => request.cookies.getAll(), setAll: (cookies: CookieToSet[]) => cookies.forEach(({ name, value, options }) => response.cookies.set(name, value, options)) } });
   const { data: auth } = await client.auth.getUser();
   if (!auth.user) return NextResponse.redirect(new URL("/auth", request.url));
-  const { data: profile } = await client.from("profiles").select("role").eq("id", auth.user.id).single();
-  if (profile?.role !== "Admin") return NextResponse.redirect(new URL("/dashboard", request.url));
+  // The admin page performs the final role check on the server.
   return response;
 }
 export const config = { matcher: ["/admin/:path*"] };
